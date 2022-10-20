@@ -2,7 +2,26 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, Card, Paragraph, Divider } from "react-native-paper";
+import {
+  WiDaySunny,
+  WiCloudy,
+  WiDaySunnyOvercast,
+  WiDayCloudyHigh,
+  WiDayFog,
+  WiFog,
+  WiSprinkle,
+  WiRaindrops,
+  WiSleet,
+  WiRainMix,
+  WiRain,
+  WiSnow,
+  WiShowers,
+  WiHail,
+  WiThunderstorm,
+  WiStormShowers,
+  WiNa,
+} from "react-icons/wi";
 
 export default function App() {
   const [clima, setClima] = useState({});
@@ -42,88 +61,106 @@ export default function App() {
     return date;
   }
 
-  //Saber si esta soleado, lloviendo, etc
-  function getEstado() {
-    const estado = clima.weathercode;
+  //Obtener el estado del clima
+  function getEstado(x) {
+    const estado = {
+      0: "Despejado",
+      1: "Parcialmente despejado",
+      2: "Parcialmente Nublado",
+      3: "Nublado",
+      45: "Niebla",
+      48: "Niebla espesa",
+      51: "Llovizna ligera",
+      53: "Llovizna moderada",
+      55: "Llovizna intensa",
+      56: "Aguanieve ligera",
+      57: "Aguanieve densa",
+      61: "Lluvia leve",
+      63: "Lluvia moderada",
+      65: "Lluvia intensa",
+      66: "Lluvia helada ligera",
+      67: "Lluvia healda intensa",
+      71: "Nevada leve",
+      73: "Nevada moderada",
+      75: "Nevada intensa",
+      77: "Granizo",
+      80: "Chaparrones leves",
+      81: "Chaparrones moderados",
+      82: "Chaparrones violentos",
+      85: "Nevadas aisladas leve",
+      86: "Nevadas aisladas intenso",
+      95: "Tormenta leve o moderada",
+      96: "Tormenta con granizo leve",
+      99: "Tormenta con granizo denso",
+    };
 
-    if (estado == 0) {
-      return "Despejado";
-    } else if (estado == 1) {
-      return "Parcialmente despejado";
-    } else if (estado == 2) {
-      return "Parcialmente Nublado";
-    } else if (estado == 3) {
-      return "Nublado";
-    } else if (estado == 45) {
-      return "Niebla";
-    } else if (estado == 48) {
-      return "Niebla espesa";
-    } else if (estado == 51) {
-      return "Llovizna ligera";
-    } else if (estado == 53) {
-      return "Llovizna moderada";
-    } else if (estado == 55) {
-      return "Llovizna intensa";
-    } else if (estado == 56) {
-      return "Llovizca con nieve ligera";
-    } else if (estado == 57) {
-      return "Llovizca con nieve densa";
-    } else if (estado == 61) {
-      return "Lluvia leve";
-    } else if (estado == 63) {
-      return "Lluvia moderada";
-    } else if (estado == 65) {
-      return "Lluvia intensa";
-    } else if (estado == 66) {
-      return "Lluvia helada ligera";
-    } else if (estado == 67) {
-      return "Lluvia healda intensa";
-    } else if (estado == 71) {
-      return "Nevada leve";
-    } else if (estado == 73) {
-      return "Nevada moderada";
-    } else if (estado == 75) {
-      return "Nevada intensa";
-    } else if (estado == 77) {
-      return "Copos de nieve";
-    } else if (estado == 80) {
-      return "Chubascos leve";
-    } else if (estado == 81) {
-      return "Chubascos moderado";
-    } else if (estado == 82) {
-      return "Chubascos violentos";
-    } else if (estado == 85) {
-      return "Granizo leve";
-    } else if (estado == 86) {
-      return "Granizo intenso";
-    } else if (estado == 95) {
-      return "Tormenta leve o moderada";
-    } else if (estado == 96) {
-      return "Tormenta con granizo leve";
-    } else if (estado == 99) {
-      return "Tormenta con granizo denso";
-    }
+    return estado[x] ?? "no encontrado";
+  }
 
-    return estado;
+  //Obtener el icono
+  function getIcons(x) {
+    const icons = {
+      0: <WiDaySunny style={{ color: "yellow" }} />,
+      1: <WiDaySunnyOvercast style={{ color: "white" }} />,
+      2: <WiDayCloudyHigh style={{ color: "white" }} />,
+      3: <WiCloudy style={{ color: "white" }} />,
+      45: <WiDayFog style={{ color: "white" }} />,
+      48: <WiFog style={{ color: "white" }} />,
+      51: <WiSprinkle style={{ color: "white" }} />,
+      53: <WiRaindrops style={{ color: "white" }} />,
+      55: <WiRaindrops style={{ color: "white" }} />,
+      56: <WiSleet style={{ color: "white" }} />,
+      57: <WiSleet style={{ color: "white" }} />,
+      61: <WiRain style={{ color: "white" }} />,
+      63: <WiRain style={{ color: "white" }} />,
+      65: <WiRain style={{ color: "white" }} />,
+      66: <WiRainMix style={{ color: "white" }} />,
+      67: <WiRainMix style={{ color: "white" }} />,
+      71: <WiSnow style={{ color: "white" }} />,
+      73: <WiSnow style={{ color: "white" }} />,
+      75: <WiSnow style={{ color: "white" }} />,
+      77: <WiHail style={{ color: "white" }} />,
+      80: <WiShowers style={{ color: "white" }} />,
+      81: <WiShowers style={{ color: "white" }} />,
+      82: <WiShowers style={{ color: "white" }} />,
+      85: <WiSnow style={{ color: "white" }} />,
+      86: <WiSnow style={{ color: "white" }} />,
+      95: <WiThunderstorm style={{ color: "white" }} />,
+      96: <WiStormShowers style={{ color: "white" }} />,
+      99: <WiStormShowers style={{ color: "white" }} />,
+    };
+
+    return icons[x] ?? "no encontrado";
   }
 
   return (
     <View style={styles.container}>
-      <Text variant="bodyLarge" style={styles.textHora}>
-        {getHora()}
-      </Text>
-      <Text variant="headlineSmall" style={styles.textPais}>
-        {getPais()}
-      </Text>
-      <Text variant="displayMedium" style={styles.textCiudad}>
+      <Text variant="headlineMedium" style={{ color: "white" }}>
         {getCiudad()}
       </Text>
-      <Text variant="titleLarge" style={styles.textEstado}>
-        {getEstado()}
-      </Text>
-      <Text variant="displaySmall" style={styles.textTemperatura}>
+      <Text variant="displayMedium" style={{ color: "white" }}>
         {clima.temperature}°
       </Text>
+      <Text variant="titleMedium" style={{ color: "white" }}>
+        {getEstado()}
+      </Text>
+      <Card style={styles.card}>
+        <Card.Content>
+          <Paragraph style={styles.cardParagraph}>
+            {getEstado()}, condiciones esperadas para las {getHora()}
+          </Paragraph>
+          <Divider />
+          <View style={styles.viewList}>
+            <View style={styles.itemList}>
+              <Text variant="bodySmall" style={{ color: "white" }}>
+                Ahora
+              </Text>
+              <Text style={styles.icon}>{getIcons(clima.weathercode)}</Text>
+              <Text style={{ color: "white" }}>{clima.temperature}°</Text>
+            </View>
+          </View>
+        </Card.Content>
+      </Card>
       <StatusBar style="auto" />
     </View>
   );
@@ -135,28 +172,34 @@ const styles = StyleSheet.create({
     backgroundImage: "linear-gradient(180deg, #2ab5fa 10%, #4C83FF 90%)",
     alignItems: "center",
     justifyContent: "center",
+    fontFamily:
+      "SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif",
+    color: "#ffffff",
   },
-  textHora: {
-    marginBottom: 15,
-    fontFamily: "montserrat",
-    color: "#fff",
-    fontWeight: "bold",
+  card: {
+    backgroundColor: "rgba(255, 255, 255, 0.25)",
+    marginTop: 20,
+    width: "90%",
+    height: "auto",
+    borderRadius: 20,
   },
-  textPais: {
-    fontFamily: "montserrat",
-    color: "#fff",
+  cardParagraph: {
+    marginBottom: 10,
+    color: "white",
   },
-  textCiudad: {
-    fontFamily: "montserrat",
-    color: "#fff",
-  },
-  textTemperatura: {
+  viewList: {
     marginTop: 10,
-    fontFamily: "montserrat",
-    color: "#fff",
+    display: "flex",
+    flexDirection: "row",
   },
-  textEstado: {
-    fontFamily: "montserrat",
-    color: "#fff",
+  itemList: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  icon: {
+    fontSize: 20,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
