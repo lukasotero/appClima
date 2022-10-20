@@ -142,12 +142,13 @@ export default function App() {
         {clima.temperature}°
       </Text>
       <Text variant="titleMedium" style={{ color: "white" }}>
-        {getEstado()}
+        {getEstado(clima.weathercode)}
       </Text>
       <Card style={styles.card}>
         <Card.Content>
           <Paragraph style={styles.cardParagraph}>
-            {getEstado()}, condiciones esperadas para las {getHora()}
+            {getEstado(clima.weathercode)}, condiciones esperadas para las{" "}
+            {getHora()}
           </Paragraph>
           <Divider />
           <View style={styles.viewList}>
