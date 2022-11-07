@@ -32,21 +32,11 @@ export default function App() {
   }
 
   //Obtener la hora
-  function getHora() {
+  function getHoraActual() {
     let date = new Date();
     let horaActual = date.getHours();
 
-    const hora = days.map((item) => {
-      const julia = item.hours;
-      return julia.map((item2) => {
-        let horaFormateada = item2.datetime.substr(0, 2);
-        if (horaFormateada == horaActual) {
-          return item2.datetime;
-        }
-      });
-    });
-
-    return hora;
+    return horaActual;
   }
 
   //Hora formateada
@@ -255,13 +245,26 @@ export default function App() {
   function getForecast() {
     const forecast = days.map((item) => {
       return item.hours.map((e, i) => {
-        if (e.icon != "") {
+        if (e.conditions != "") {
           return (
             <View style={styles.itemList} key={i}>
-              <Text variant="bodySmall" style={{ color: "white" }}>
-                {getHoraFormateada(e.datetime)}
-              </Text>
-              <View style={{ width: 20, height: 20, marginVertical: 5 }}>
+              {getHoraFormateada(e.datetime) == getHoraActual() ? (
+                <Text variant="bodySmall" style={{ color: "white" }}>
+                  Ahora
+                </Text>
+              ) : (
+                <Text variant="bodySmall" style={{ color: "white" }}>
+                  {getHoraFormateada(e.datetime)}
+                </Text>
+              )}
+
+              <View
+                style={{
+                  width: 20,
+                  height: 20,
+                  marginVertical: 5,
+                }}
+              >
                 {getWeatherIcons(e.icon)}
               </View>
               <Text style={{ color: "white" }}>
@@ -292,7 +295,8 @@ export default function App() {
       <Card style={styles.card}>
         <Card.Content>
           <Paragraph style={styles.cardParagraph}>
-            {getWeatherEstado()}, condiciones esperadas para las {getHora()}.
+            {getWeatherEstado()}, condiciones esperadas para las{" "}
+            {getHoraActual()}.
           </Paragraph>
           <Divider />
           <View style={styles.viewList}>{getForecast()}</View>
@@ -328,7 +332,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flexWrap: "no-wrap",
+    overflow: "scroll",
   },
   itemList: {
     display: "flex",
@@ -338,10 +344,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: "100%",
-    height: "100%",
-  },
-  winddirection: {
-    color: "white",
-    fontSize: 25,
+    height: "auto",
+    aspectRatio: 1,
   },
 });
