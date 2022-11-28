@@ -11,9 +11,10 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Details"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: "#2ab5fa",
+        tabBarInactiveTintColor: "#9b9b9b",
         headerShown: false,
         tabBarStyle: { marginBottom: 10 },
       }}
@@ -24,8 +25,8 @@ function MyTabs() {
         options={{
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarIcon: () => (
-            <FontAwesome name="home" size={24} color="#2ab5fa" />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="home" size={size} color={color} />
           ),
         }}
       />
@@ -35,8 +36,8 @@ function MyTabs() {
         options={{
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarIcon: () => (
-            <FontAwesome name="list-ul" size={24} color="#2ab5fa" />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="list-ul" size={size} color={color} />
           ),
         }}
       />
